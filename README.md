@@ -28,11 +28,11 @@ VITE_ADMIN_EMAIL="unitehenry@gmail.com"
 
 ## Screenshots
 
-![login](./login.png)
-![calendar](./calendar.png)
-![select date](./select-date.png)
-![confirm](./confirm.png)
-![admin](./admin.png)
+![login](./images/login.png)
+![calendar](./images/calendar.png)
+![select date](./images/select-date.png)
+![confirm](./images/confirm.png)
+![admin](./images/admin.png)
 
 ## Notes
 
