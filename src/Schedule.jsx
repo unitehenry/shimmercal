@@ -1,3 +1,7 @@
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css'
+import './Schedule.css'
+
 export default function Schedule() {
   return (
     <div className="w-[500px] shadow-lg bg-white p-4 rounded-lg">
@@ -8,6 +12,9 @@ export default function Schedule() {
         <span className="text-gray-600">
           Select a date from below
         </span>
+      </div>
+      <div>
+        <Calendar />
       </div>
     </div>
   )
