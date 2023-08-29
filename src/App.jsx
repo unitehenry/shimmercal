@@ -13,6 +13,14 @@ function App() {
 
   if (user === undefined) return <div />;
 
+  if (user === null) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-blue-50 p-4">
+        <Login />
+      </div>
+    );
+  }
+
   if (user?.email === 'unitehenry@gmail.com') {
     return (
       <div className="flex items-center justify-center h-screen bg-blue-50 p-4">
@@ -23,9 +31,10 @@ function App() {
 
   return (
     <div className="flex items-center justify-center h-screen bg-blue-50 p-4">
-      <Login />
+      calendar
     </div>
-  )
+  );
+
 }
 
 export default App
