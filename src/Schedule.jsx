@@ -6,6 +6,9 @@ import 'react-calendar/dist/Calendar.css'
 import './Schedule.css'
 import moment from 'moment';
 
+import { getFirestore, collection, getDocs, addDoc, deleteDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+
 const defaultTimeSlots = [
   '9:00am', '9:30am', '10:00am',
   '10:30am', '11:00am', '11:30am',
@@ -18,6 +21,7 @@ export default function Schedule() {
   const [ selectedDate, setSelectedDate ] = useState(null);
   const [ selectedTime, setSelectedTime ] = useState(null);
   const [ confirmationDate, setConfirmationDate ] = useState(null);
+  const [ message, setMessage ] = useState('');
 
   const onNextClick = () => {
     const nextDate = moment(selectedDate);
@@ -30,12 +34,45 @@ export default function Schedule() {
     setConfirmationDate(nextDate);
   }
 
-  const onConfirm = () => alert('confirm');
+  const onConfirm = async () => {
+    const db = getFirestore();
+    const auth = getAuth();
+    const collectionRef = collection(db, `usermeetings/${auth.currentUser.uid}/meetings`);
+    const endDate = moment(confirmationDate);
+    endDate.add(30, 'minutes');
+    await addDoc(collectionRef, {
+      startTime: confirmationDate.utc().format(),
+      endTime: endDate.utc().format(),
+      email: auth.currentUser.email,
+    });
+    setMessage('Your meeting has been scheduled!');
+  }
+
+  const onCancel = async () => {
+    const db = getFirestore();
+    const auth = getAuth();
+    const collectionRef = collection(db, `usermeetings/${auth.currentUser.uid}/meetings`);
+    const docs = await getDocs(collectionRef);
+    await Promise.all(docs.docs.map(d => deleteDoc(d.ref)));
+    window.navigation.reload();
+  }
 
   if (confirmationDate) {
-    return <Confirmation
-      confirmationDate={confirmationDate}
-      onConfirm={onConfirm} />;
+    return (
+      <div>
+        <Confirmation
+          confirmationDate={confirmationDate}
+          onCancel={message ? onCancel : null}
+          onConfirm={message ? null : onConfirm} />
+        {
+          message ? (
+            <div className="absolute right-4 top-4 text-green-600 bg-white shadow-lg p-4 rounded">
+              { message }
+            </div>
+          ) : <div />
+        }
+      </div>
+    );
   }
 
   return (
