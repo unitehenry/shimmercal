@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import Calendar from 'react-calendar'
+import Confirmation from './Confirmation';
 import 'react-calendar/dist/Calendar.css'
 import './Schedule.css'
 import moment from 'moment';
@@ -16,6 +17,26 @@ export default function Schedule() {
 
   const [ selectedDate, setSelectedDate ] = useState(null);
   const [ selectedTime, setSelectedTime ] = useState(null);
+  const [ confirmationDate, setConfirmationDate ] = useState(null);
+
+  const onNextClick = () => {
+    const nextDate = moment(selectedDate);
+    const [ hourString, minuteString ] = selectedTime.split(':');
+    let hour = parseInt(hourString);
+    if (minuteString.includes('pm')) hour += 12;
+    const minute = parseInt(minuteString.substring(0, 2));
+    nextDate.set('hour', hour);
+    nextDate.set('minute', minute);
+    setConfirmationDate(nextDate);
+  }
+
+  const onConfirm = () => alert('confirm');
+
+  if (confirmationDate) {
+    return <Confirmation
+      confirmationDate={confirmationDate}
+      onConfirm={onConfirm} />;
+  }
 
   return (
     <div className="w-[650px] h-fit shadow-lg bg-white p-4 rounded-lg">
@@ -40,12 +61,14 @@ export default function Schedule() {
               { defaultTimeSlots.map(slot => {
                   if (selectedTime === slot) {
                     return (
-                      <div className="w-full flex gap-1">
+                      <div className="w-full flex gap-1" key={slot}>
                         <div
                           className="w-full border border-blue-500 bg-blue-100 px-4 py-2 rounded cursor-pointer">
                             { slot }
                         </div>
-                        <button className="w-full border border-blue-500 px-4 py-2 rounded cursor-pointer hover:bg-blue-500 hover:text-white">
+                        <button
+                          className="w-full border border-blue-500 px-4 py-2 rounded cursor-pointer hover:bg-blue-500 hover:text-white"
+                          onClick={onNextClick}>
                           Next
                         </button>
                       </div>

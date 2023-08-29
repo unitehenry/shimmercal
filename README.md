@@ -12,4 +12,9 @@
 2. Select Time Screen
 3. Confirmation Screen -> Success Toast
 4. Admin Screen
+
+Details to come back to:
+timezones
+available time slots for selected date
+cancel meeting
 ```
