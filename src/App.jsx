@@ -1,11 +1,22 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, getDocs, addDoc, deleteDoc } from "firebase/firestore";
 
 import Login from './Login';
 import Schedule from './Schedule';
 import Confirmation from './Confirmation';
+
+function Logout() {
+
+  const onClick = () => signOut(getAuth());
+
+  return (
+    <button className="font-bold text-gray-400 hover:underline" onClick={onClick} type="button">
+      Logout of scheduler
+    </button>
+  )
+}
 
 function App() {
 
@@ -49,7 +60,10 @@ function App() {
   if (user?.email === import.meta.env.VITE_ADMIN_EMAIL) {
     return (
       <div className="flex items-center justify-center h-screen bg-blue-50 p-4">
-        ADMIN
+        <div>
+          ADMIN
+          <Logout />
+        </div>
       </div>
     );
   }
@@ -57,16 +71,22 @@ function App() {
   if (meeting) {
     return (
       <div className="flex items-center justify-center h-screen bg-blue-50 p-4">
-        <Confirmation
-          onCancel={onCancel}
-          confirmationDate={moment.utc(meeting.startTime)} />
+        <div>
+          <Confirmation
+            onCancel={onCancel}
+            confirmationDate={moment.utc(meeting.startTime)} />
+          <Logout />
+        </div>
       </div>
     );
   }
 
   return (
     <div className="flex items-center justify-center h-screen bg-blue-50 p-4">
-      <Schedule />
+      <div>
+        <Schedule />
+        <Logout />
+      </div>
     </div>
   );
 
