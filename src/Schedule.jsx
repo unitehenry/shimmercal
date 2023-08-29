@@ -6,7 +6,7 @@ import 'react-calendar/dist/Calendar.css'
 import './Schedule.css'
 import moment from 'moment';
 
-import { getFirestore, collection, getDocs, addDoc, deleteDoc } from "firebase/firestore";
+import { getFirestore, setDoc, doc, collection, getDocs, addDoc, deleteDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const defaultTimeSlots = [
@@ -40,6 +40,9 @@ export default function Schedule() {
     const collectionRef = collection(db, `usermeetings/${auth.currentUser.uid}/meetings`);
     const endDate = moment(confirmationDate);
     endDate.add(30, 'minutes');
+    await setDoc(doc(db, 'usermeetings', auth.currentUser.uid), {
+       email: auth.currentUser.email,
+    });
     await addDoc(collectionRef, {
       startTime: confirmationDate.utc().format(),
       endTime: endDate.utc().format(),

@@ -3,6 +3,7 @@ import moment from 'moment';
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, getDocs, addDoc, deleteDoc } from "firebase/firestore";
 
+import Admin from './Admin';
 import Login from './Login';
 import Schedule from './Schedule';
 import Confirmation from './Confirmation';
@@ -61,7 +62,7 @@ function App() {
     return (
       <div className="flex items-center justify-center h-screen bg-blue-50 p-4">
         <div>
-          ADMIN
+          <Admin />
           <Logout />
         </div>
       </div>
