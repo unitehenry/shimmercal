@@ -1,6 +1,8 @@
-import Login from './Login';
 import { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+import Login from './Login';
+import Schedule from './Schedule';
 
 function App() {
 
@@ -31,7 +33,7 @@ function App() {
 
   return (
     <div className="flex items-center justify-center h-screen bg-blue-50 p-4">
-      calendar
+      <Schedule />
     </div>
   );
 
