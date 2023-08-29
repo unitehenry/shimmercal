@@ -23,7 +23,7 @@ function App() {
     );
   }
 
-  if (user?.email === 'unitehenry@gmail.com') {
+  if (user?.email === import.meta.env.VITE_ADMIN_EMAIL) {
     return (
       <div className="flex items-center justify-center h-screen bg-blue-50 p-4">
         ADMIN
